@@ -35,6 +35,12 @@ function App() {
 
   const loadBlockchainData = async () => {
     // connect to blockchain
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const account = ethers.getAddress(accounts[0]);
+    setAccount(account);
+
     const provider = new ethers.BrowserProvider(window.ethereum);
     setProvider(provider);
 

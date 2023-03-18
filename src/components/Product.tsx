@@ -1,5 +1,6 @@
 import { BrowserProvider, ethers } from "ethers";
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import { Item } from "../types";
 import Rating from "./Rating";
 import close from "../assets/close.svg";
@@ -19,7 +20,35 @@ const Product: React.FC<ProductProps> = ({
   amazonDApp,
   togglePop,
 }) => {
-  const buyHandler = () => {};
+  const [order, setOrder] = useState(null);
+  const [hasBought, setHasBought] = useState<boolean>(false);
+
+  const fetchDetails = async () => {
+    const events = await amazonDApp.queryFilter("Buy");
+
+    const orders = events.filter(
+      (event: any) =>
+        event.args.buyer === account &&
+        event.args.itemId.toString() === item.id.toString()
+    );
+
+    if (orders.length === 0) return;
+
+    const order = await amazonDApp.orders(account, orders[0].args.orderId);
+    setOrder(order);
+  };
+
+  const buyHandler = async () => {
+    const signer = await provider.getSigner();
+
+    await amazonDApp.connect(signer).buy(item.id, { value: item.cost });
+
+    setHasBought(true);
+  };
+
+  useEffect(() => {
+    fetchDetails();
+  }, [hasBought]);
 
   return (
     <div className="product">
@@ -75,6 +104,22 @@ const Product: React.FC<ProductProps> = ({
           <p>
             <small>Sold by </small>Amazon Clone
           </p>
+
+          {order && (
+            <div className="product__bought">
+              Item Bought on <br />
+              <strong>
+                {new Date(Date.now() + 345600000).toLocaleDateString(
+                  undefined,
+                  {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
+                  }
+                )}
+              </strong>
+            </div>
+          )}
         </div>
         <button onClick={() => togglePop(item)} className="product__close">
           <img src={close} alt="Close" />
