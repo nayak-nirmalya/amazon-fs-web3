@@ -14,16 +14,24 @@ import Navigation from "./components/Navigation";
 
 import { Item } from "./types";
 import Section from "./components/Section";
+import Product from "./components/Product";
 
 function App() {
   const [account, setAccount] = useState<string>("");
   const [amazonDApp, setAmazonDApp] = useState<any>(null);
   const [provider, setProvider] = useState<BrowserProvider>();
+
   const [toys, setToys] = useState<Item[]>([]);
   const [clothing, setClothing] = useState<Item[]>([]);
   const [electronics, setElectronics] = useState<Item[]>([]);
 
-  const togglePop = () => {};
+  const [item, setItem] = useState<Item>();
+  const [toggle, setToggle] = useState<boolean>(false);
+
+  const togglePop = (item: Item) => {
+    setItem(item);
+    toggle ? setToggle(false) : setToggle(true);
+  };
 
   const loadBlockchainData = async () => {
     // connect to blockchain
@@ -82,6 +90,16 @@ function App() {
           />
           <Section title="Toys & Gaming" items={toys} togglePop={togglePop} />
         </>
+      )}
+
+      {toggle && (
+        <Product
+          item={item!}
+          provider={provider!}
+          account={account}
+          amazonDApp={amazonDApp}
+          togglePop={togglePop}
+        />
       )}
     </div>
   );
