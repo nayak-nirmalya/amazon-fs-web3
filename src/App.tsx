@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ethers } from "ethers";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 
@@ -12,7 +13,11 @@ function App() {
   const loadBlockchainData = async () => {
     console.log("Loading...");
 
-    // const accounts = await window.ethereum.request()
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const account = ethers.getAddress(accounts[0]);
+    console.log(account);
   };
 
   useEffect(() => {
