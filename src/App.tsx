@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 
@@ -11,7 +11,14 @@ import { abi } from "../../amazon-hardhat-backend/artifacts/contracts/AmazonDApp
 function App() {
   const loadBlockchainData = async () => {
     console.log("Loading...");
+
+    // const accounts = await window.ethereum.request()
   };
+
+  useEffect(() => {
+    loadBlockchainData();
+  }, []);
+
   return (
     <div>
       <h2>Hello World!</h2>
