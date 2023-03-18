@@ -16,8 +16,10 @@ const Section: React.FC<SectionProps> = ({ title, items, togglePop }) => {
 
       <div className="cards">
         {items.map((item, index) => (
-          <div className="card" key={index} onClick={() => togglePop(item)}>
-            {item.name}
+          <div className="card" key={index} onClick={() => togglePop()}>
+            <div className="card__image">
+              <img src={item.image} alt={item.name} />
+            </div>
           </div>
         ))}
       </div>
