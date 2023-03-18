@@ -13,6 +13,7 @@ import { abi } from "../../amazon-hardhat-backend/artifacts/contracts/AmazonDApp
 import Navigation from "./components/Navigation";
 
 import { Item } from "./types";
+import Section from "./components/Section";
 
 function App() {
   const [account, setAccount] = useState<string>("");
@@ -21,6 +22,8 @@ function App() {
   const [toys, setToys] = useState<Item[]>([]);
   const [clothing, setClothing] = useState<Item[]>([]);
   const [electronics, setElectronics] = useState<Item[]>([]);
+
+  const togglePop = () => {};
 
   const loadBlockchainData = async () => {
     // connect to blockchain
@@ -65,7 +68,21 @@ function App() {
 
       <h2>Amazon Best Sellers</h2>
 
-      {electronics && clothing && toys && <p>Products</p>}
+      {electronics && clothing && toys && (
+        <>
+          <Section
+            title="Clothing & Jewelery"
+            items={clothing}
+            togglePop={togglePop}
+          />
+          <Section
+            title="Electronics & Gadgets"
+            items={electronics}
+            togglePop={togglePop}
+          />
+          <Section title="Toys & Gaming" items={toys} togglePop={togglePop} />
+        </>
+      )}
     </div>
   );
 }
