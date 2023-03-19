@@ -3,5 +3,10 @@
     "AmazonDApp": {
       "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
     }
+  },
+  "80001": {
+    "AmazonDApp": {
+      "address": "0x426cc5e47360c414296deef6d2c1b811ce377c7d"
+    }
   }
 }
